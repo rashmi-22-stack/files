@@ -1,56 +1,61 @@
-# Do not modify these lines
-__winc_id__ = '7b9401ad7f544be2a23321292dd61cb6'
-__human_name__ = 'arguments'
+__winc_id__ = "ae539110d03e49ea8738fd413ac44ba8"
+__human_name__ = "files"
 
-# Add your code after this line
-def greet(name, template= 'Hello, <name>!'):
-    return template.replace('<name>', name)
-greet('Doc')
-print(greet)
-greet('Bob', 'Hello, <name>!')
-print (greet)   
+import os
+import zipfile
 
-# ##2.Force
-def force(mass: float, body: str = 'earth') -> float:
-    planet_gravity = {
-        
-        'mercury': 3.7,
-        'venus': 8.9,
-        'earth': 9.8,
-        'moon': 1.6,
-        'mars': 3.7,
-        'jupiter': 23.1,
-        'saturn': 9.0,
-        'uranus': 8.7,
-        'neptune': 11.0,
-        'pluto': 0.7
-    }
-    gravity = planet_gravity[body]
-    return mass * gravity
-earth_force = force(10.0)
-print(f"The force exerted by Earth is {earth_force} N." )
+#1.
+def clean_cache():
+    cache_dir = os.path.join(os.getcwd(), 'cache')
+    
+    if os.path.exists(cache_dir) and not os.path.isfile(cache_dir):
+  
+        # Checking if the directory is empty or not
+        if not os.listdir(cache_dir):
+            print("Empty directory")
+        else:
+            print("Not empty directory")
+    else:
+        print("The path is either for a file or not valid")
+    
+#2.
+def cache_zip(zip_file_path, cache_dir_path):
+    print("Caching the zip file...")
+    with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+        zip_ref.extractall(cache_dir_path)
+        print(f"Extracted {zip_file_path} to {cache_dir_path}")
+    print("Zip file cached.")
 
-# earth_force =force(mass=0.1)    # while calling function body= earth's gravity  is by default  
-# print(f"The force exerted by Earth is {earth_force} N")   #  The force = m x g = 5.97 x 9.8 =  58.506 N 
-# why wincpy shows keyError : 'sun'
-# # #    
+#3.
+def cached_files():
+    parent_path = os.getcwd()
+    file_dir_path = "files/cache"
+    file_path_abs = os.path.abspath(os.path.join(parent_path, file_dir_path))
+    print(file_path_abs)
+    
+    files = []
+    for root, dirs, filenames in os.walk(file_path_abs):
+        for filename in filenames:
+            file_path = os.path.join(root, filename)
+            if os.path.isfile(file_path):
+                files.append(os.path.abspath(file_path))
+    
+    print("List of files:", files)
+    return files
 
-# 3.
-def pull(m1, m2, d):
-    G = 6.674 * (10 ** -11)
-    return G * ((m1 * m2) / (d ** 2))
-# Calculate the gravitational pull between Earth and the Moon
-earth_mass = 5.97 * (10 ** 24 ) # kg    # The Earth has a mass of 5.972×10 power24 kg: m1
-moon_mass = 7.34 * (10 ** 22 ) # kg    # Moon has a mass of 7.342×10 power22 kg) : m2
-distance = 384400000  # m distance in meters
-pull_force = pull(earth_mass, moon_mass, distance)
-print(pull_force)  # = 1.985428700763691e+20 
-
-
-# example from website to test: But a much larger object such as the Moon (with a mass of 7.342×10power22 kg) does have a noticeable effect on the Earth.
-
-# The Moon orbits the Earth at about 384,000 km every 27.3 days
-
-# And the Earth also has an "orbit" (more like a wobble) with the Moon of about 5000 km (which is actually less than the Earth's radius), also every 27.3 days.
-
-# Your turn: try to work out the force of attraction == pull_force, between the Earth and the Moon.
+#4.
+def find_password(file_paths):
+    file_paths = cached_files()  # Get the list of file paths from cached_files()
+    password = None
+    print("Searching for the password...")
+    for file_path in file_paths:
+        with open(file_path, 'r') as file:
+            for line in file:
+                if "password:" in line.lower():
+                    password = line.split(":", 1)[1].strip()
+                    break
+    if password:
+        print("Password found:", password)
+    else:
+        print("Password not found.")
+    return password
