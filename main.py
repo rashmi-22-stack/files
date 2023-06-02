@@ -3,7 +3,7 @@ __human_name__ = "files"
 
 import os
 import zipfile
-
+# please feedback in english
 #1.
 def clean_cache():
     cache_dir = os.path.join(os.getcwd(), 'cache')
