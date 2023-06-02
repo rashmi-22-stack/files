@@ -17,7 +17,8 @@ def clean_cache():
             print("Not empty directory")
     else:
         print("The path is either for a file or not valid")
-    
+clean_cache () 
+ 
 #2.
 def cache_zip(zip_file_path, cache_dir_path):
     print("Caching the zip file...")
@@ -25,6 +26,9 @@ def cache_zip(zip_file_path, cache_dir_path):
         zip_ref.extractall(cache_dir_path)
         print(f"Extracted {zip_file_path} to {cache_dir_path}")
     print("Zip file cached.")
+zip_file_path = r"C:\Users\walia\OneDrive\Winc\modules\files\data.zip"
+cache_dir_path = r"C:\Users\walia\OneDrive\Winc\modules\files\cache"
+cache_zip(zip_file_path, cache_dir_path)
 
 #3.
 def cached_files():
@@ -42,6 +46,7 @@ def cached_files():
     
     print("List of files:", files)
     return files
+file_paths = cached_files() 
 
 #4.
 def find_password(file_paths):
@@ -59,3 +64,4 @@ def find_password(file_paths):
     else:
         print("Password not found.")
     return password
+password = find_password(file_paths)
