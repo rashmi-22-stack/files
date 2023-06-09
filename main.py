@@ -3,36 +3,33 @@ __human_name__ = "files"
 
 import os
 import zipfile
-# please feedback in english
-#1.
+import shutil
+
+parent_path = os.getcwd()
+cache_path = os.path.join(parent_path, "cache")
+data_path = os.path.join(parent_path, "data_zip")
+
+# #1.
+#import os
 def clean_cache():
-    cache_dir = os.path.join(os.getcwd(), 'cache')
-    
-    if os.path.exists(cache_dir) and not os.path.isfile(cache_dir):
-  
-        # Checking if the directory is empty or not
-        if not os.listdir(cache_dir):
-            print("Empty directory")
-        else:
-            print("Not empty directory")
+    if  os.path.exists(cache_path): #Cleans the cache directory by removing/empty its contents or creating a new empty directory if it doesn't exist.
+        shutil.rmtree(cache_path)
     else:
-        print("The path is either for a file or not valid")
-clean_cache () 
+        os.mkdir("cache")
+clean_cache() 
  
 #2.
+#import zipfile
 def cache_zip(zip_file_path, cache_dir_path):
     print("Caching the zip file...")
-    with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
-        zip_ref.extractall(cache_dir_path)
+    with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:     ## Open the ZIP file for reading
+        zip_ref.extractall(cache_dir_path)        #Extracts the specified zip file into the cache directory.
         print(f"Extracted {zip_file_path} to {cache_dir_path}")
     print("Zip file cached.")
-zip_file_path = r"C:\Users\walia\OneDrive\Winc\modules\files\data.zip"
-cache_dir_path = r"C:\Users\walia\OneDrive\Winc\modules\files\cache"
-cache_zip(zip_file_path, cache_dir_path)
 
 #3.
-def cached_files():
-    parent_path = os.getcwd()
+def cached_files():   #    Returns a list of all files in the cache directory, including their absolute paths.
+    parent_path = os.getcwd()   
     file_dir_path = "files/cache"
     file_path_abs = os.path.abspath(os.path.join(parent_path, file_dir_path))
     print(file_path_abs)
@@ -44,7 +41,7 @@ def cached_files():
             if os.path.isfile(file_path):
                 files.append(os.path.abspath(file_path))
     
-    print("List of files:", files)
+    # print("List of files:", files)
     return files
 file_paths = cached_files() 
 
